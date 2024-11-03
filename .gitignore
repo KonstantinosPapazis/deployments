@@ -35,3 +35,13 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+.idea
+.DS_Store
+
+.terraform.lock.hcl
+
+kubeconfig.yaml
+test.yml
+
+.creds.env

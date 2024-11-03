@@ -1,0 +1,34 @@
+# gateway-rbac.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: nginx-gateway-controller
+  namespace: nginx-gateway
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: nginx-gateway-controller
+rules:
+  - apiGroups: ["gateway.networking.k8s.io"]
+    resources: ["*"]
+    verbs: ["*"]
+  - apiGroups: [""]
+    resources: ["services", "endpoints", "pods", "nodes", "namespaces"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["create", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: nginx-gateway-controller
+subjects:
+  - kind: ServiceAccount
+    name: nginx-gateway-controller
+    namespace: nginx-gateway
+roleRef:
+  kind: ClusterRole
+  name: nginx-gateway-controller
+  apiGroup: rbac.authorization.k8s.io
